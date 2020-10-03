@@ -34,7 +34,7 @@ defmodule Wl.Accounts.Entities.User do
     |> unique_constraint(:username)
     |> validate_password(:password)
     |> validate_password_confirmation(:password, :password_confirmation)
-    |> put_pass_hash
+    |> put_password_hash
   end
 
   def change_password_changeset(user, attrs \\ %{}) do
@@ -43,7 +43,7 @@ defmodule Wl.Accounts.Entities.User do
     |> validate_required(@password_fields)
     |> validate_password(:password)
     |> validate_password_confirmation(:password, :password_confirmation)
-    |> put_pass_hash
+    |> put_password_hash
   end
 
   def preload_list, do: @preload_list
@@ -81,7 +81,7 @@ defmodule Wl.Accounts.Entities.User do
     end)
   end
 
-  defp put_pass_hash(
+  defp put_password_hash(
          %Changeset{
            valid?: true,
            changes: %{password: password, password_confirmation: _password_confirmation}
@@ -90,9 +90,9 @@ defmodule Wl.Accounts.Entities.User do
     change(changeset, Argon2.add_hash(password))
   end
 
-  defp put_pass_hash(%Changeset{valid?: true, changes: %{password: password}} = changeset) do
+  defp put_password_hash(%Changeset{valid?: true, changes: %{password: password}} = changeset) do
     change(changeset, Argon2.add_hash(password))
   end
 
-  defp put_pass_hash(changeset), do: changeset
+  defp put_password_hash(changeset), do: changeset
 end
