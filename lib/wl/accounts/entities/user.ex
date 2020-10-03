@@ -1,13 +1,13 @@
-defmodule Wl.Accounts.User do
+defmodule Wl.Accounts.Entities.User do
   use Ecto.Schema
 
   import Ecto.Changeset
   alias Ecto.Changeset
 
   @preload_list []
-  @required []
-  @optional []
-
+  @required [:name, :surname, :username]
+  @optional [:archived_at, :profile_photo]
+  @password_fields [:password, :password_confirmation]
   schema "users" do
     field :name, :string
     field :surname, :string
@@ -16,18 +16,8 @@ defmodule Wl.Accounts.User do
     field :password_confirmation, :string, virtual: true
     field :password_hash, :string
     field :profile_photo, :string
-
+    field :archived_at, :naive_datetime
     timestamps()
-  end
-
-  def password_changeset(user, attrs \\ %{}) do
-    user
-    |> cast(attrs, @optional ++ @required)
-    |> validate_required(@required ++ [:password, :password_confirmation])
-    |> unique_constraint(:username)
-    |> validate_password(:password)
-    |> validate_password_confirmation(:password, :password_confirmation)
-    |> put_pass_hash
   end
 
   def changeset(user, attrs \\ %{}) do
@@ -35,6 +25,25 @@ defmodule Wl.Accounts.User do
     |> cast(attrs, @optional ++ @required)
     |> validate_required(@required)
     |> unique_constraint(:username)
+  end
+
+  def new_user_changeset(user, attrs \\ %{}) do
+    user
+    |> cast(attrs, @optional ++ @required ++ @password_fields)
+    |> validate_required(@required ++ @password_fields)
+    |> unique_constraint(:username)
+    |> validate_password(:password)
+    |> validate_password_confirmation(:password, :password_confirmation)
+    |> put_pass_hash
+  end
+
+  def change_password_changeset(user, attrs \\ %{}) do
+    user
+    |> cast(attrs, @password_fields)
+    |> validate_required(@password_fields)
+    |> validate_password(:password)
+    |> validate_password_confirmation(:password, :password_confirmation)
+    |> put_pass_hash
   end
 
   def preload_list, do: @preload_list
@@ -58,16 +67,15 @@ defmodule Wl.Accounts.User do
   defp validate_password_confirmation(changeset, pass_field, conf_field, options \\ []) do
     pwd = get_change(changeset, pass_field)
 
-    changeset
-    |> validate_change(conf_field, fn _, password_confirmation ->
+    validate_change(changeset, conf_field, fn _, password_confirmation ->
       case password_confirmation do
         ^pwd ->
           []
 
         _ ->
           [
-            {password_confirmation,
-             options[:message] || "The password is not equal to password confirmation"}
+            password_confirmation:
+              options[:message] || "The password is not equal to password confirmation"
           ]
       end
     end)
@@ -79,7 +87,7 @@ defmodule Wl.Accounts.User do
            changes: %{password: password, password_confirmation: _password_confirmation}
          } = changeset
        ) do
-    put_change(changeset, :password_hash, Argon2.add_hash(password))
+    change(changeset, Argon2.add_hash(password))
   end
 
   defp put_pass_hash(%Changeset{valid?: true, changes: %{password: password}} = changeset) do
