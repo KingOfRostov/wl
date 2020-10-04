@@ -1,0 +1,35 @@
+<div class="container">
+  <div class="row d-flex justify-content-center my-5">
+    <div class="col-4">
+    </div>
+    <div class="col-4 d-flex">
+      <div class="font-weight-bold h4"> Username:
+      </div>
+      <div class="ml-1 h4 font-italic"><%= @user.username %>
+      </div>
+    </div>
+    <div class="col-4">
+      <a href="#" class="py-2 px-3 btn btn-warning btn-sm float-right">Edit</a>
+    </div>
+  </div>
+  <div class="row d-flex justify-content-center my-5">
+    <ul class="list-group col-5">
+      <li class="list-group-item d-flex">
+        <div class="font-weight-bold">
+          Name:
+        </div>
+        <div class="ml-1">
+          <%= @user.name %>
+        </div>
+      </li>
+       <li class="list-group-item d-flex">
+        <div class="font-weight-bold">
+          Surname:
+        </div>
+        <div class="ml-1">
+          <%= @user.surname %>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
