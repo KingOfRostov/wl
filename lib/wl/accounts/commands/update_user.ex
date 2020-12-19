@@ -1,7 +1,7 @@
 defmodule Wl.Accounts.Commands.UpdateUser do
   alias Wl.Accounts.Entities.User
-  alias Wl.Repo
   alias Wl.ImageUploader
+  alias Wl.Repo
   import Ecto.Changeset, only: [get_change: 2]
 
   def process(user, params) do
