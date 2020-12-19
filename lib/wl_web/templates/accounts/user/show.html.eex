@@ -14,6 +14,13 @@
   </div>
   <div class="row d-flex justify-content-center my-5">
     <ul class="list-group col-5">
+      <%= if @user.profile_photo do %>
+        <li class="list-group-item d-flex">
+          <div class="ml-1">
+            <img src="<%= Wl.ImageUploader.url(@user.profile_photo, :tiny)%>">
+          </div>
+        </li>
+      <% end %>
       <li class="list-group-item d-flex">
         <div class="font-weight-bold">
           Name:

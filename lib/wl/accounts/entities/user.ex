@@ -1,8 +1,10 @@
 defmodule Wl.Accounts.Entities.User do
   use Ecto.Schema
+  use Arc.Ecto.Schema
 
   import Ecto.Changeset
   alias Ecto.Changeset
+  alias Wl.ImageUploader
 
   @preload_list []
   @required [:name, :surname, :username]
@@ -15,22 +17,28 @@ defmodule Wl.Accounts.Entities.User do
     field :password, :string, virtual: true
     field :password_confirmation, :string, virtual: true
     field :password_hash, :string
-    field :profile_photo, :string
+    field :profile_photo, ImageUploader.Type
     field :archived_at, :naive_datetime
     timestamps()
   end
 
   def changeset(user, attrs \\ %{}) do
+    attrs = ImageUploader.with_files(attrs, ["profile_photo"])
+
     user
     |> cast(attrs, @optional ++ @required)
+    |> cast_attachments(attrs, [:profile_photo])
     |> validate_required(@required)
     |> validate_length(:username, min: 3, max: 18)
     |> unique_constraint(:username)
   end
 
   def new_user_changeset(user, attrs \\ %{}) do
+    attrs = ImageUploader.with_files(attrs, ["profile_photo"])
+
     user
     |> cast(attrs, @optional ++ @required ++ @password_fields)
+    |> cast_attachments(attrs, [:profile_photo])
     |> validate_required(@required ++ @password_fields)
     |> unique_constraint(:username)
     |> validate_password(:password)

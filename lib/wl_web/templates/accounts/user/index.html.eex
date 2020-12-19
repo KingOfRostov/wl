@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row">
-    <div class="col-11">
+    <div class="col">
       <div class="row d-flex justify-content-center my-5">
         <div class="col text-center">
           <span class="h3"> USERS </span>
@@ -8,10 +8,21 @@
       </div>
       <%= for user <- @users do %>
         <div class="row d-flex justify-content-center my-5">
-          <div class="card" style="width: 20rem;">
+          <div class="card" style="width: 25rem;">
             <div class="card-body">
-              <span class="h5 card-title"> <%= user.username %> </span>
-              <p class="card-text h3"> <%= user.name %> <%= user.surname %> </p>
+              <div class="row d-flex justify-content-center align-self-center">
+                <div class="col-5">
+                  <%= if user.profile_photo do %>
+                    <img class="profile-photo-index-avatar" src="<%= Wl.ImageUploader.url(user.profile_photo, :avatar)%>">
+                  <% else %>
+                    <span>(No photo)</span>
+                  <% end %>
+                </div>
+                <div class="col justify-content-center align-self-center">
+                  <p class="h6 card-title"> <%= user.username %> </p>
+                  <p class="card-text h5"> <%= user.name %> <%= user.surname %> </p>
+                </div>
+              </div>
             </div>
           </div>
           <div>
