@@ -16,6 +16,7 @@ defmodule WlWeb.Router do
   scope "/", WlWeb do
     pipe_through :browser
 
+    resources "/users", Accounts.UserController, except: [:delete]
     get "/", PageController, :index
   end
 

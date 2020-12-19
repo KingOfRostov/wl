@@ -45,7 +45,7 @@ defmodule Wl.Accounts.UserTest do
         |> Accounts.create_user()
 
       assert changeset.errors == [
-               password_confirmation: {"The password is not equal to password confirmation", []}
+               password_confirmation: {"Wrong password confirmation", []}
              ]
     end
 
@@ -123,7 +123,7 @@ defmodule Wl.Accounts.UserTest do
         Accounts.change_user_password(user, "new_test_password", "new_password")
 
       assert changeset.errors == [
-               password_confirmation: {"The password is not equal to password confirmation", []}
+               password_confirmation: {"Wrong password confirmation", []}
              ]
     end
   end

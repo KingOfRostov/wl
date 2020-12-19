@@ -23,6 +23,7 @@ defmodule WlWeb.ConnCase do
       import Plug.Conn
       import Phoenix.ConnTest
       import WlWeb.ConnCase
+      import Wl.Factories.Factory
 
       alias WlWeb.Router.Helpers, as: Routes
 
