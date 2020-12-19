@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="col-4">
-      <a href="#" class="py-2 px-3 btn btn-warning btn-sm float-right">Edit</a>
+      <%= link("Edit", to: Routes.user_path(@conn, :edit, @user.id), class: "py-2 px-3 btn btn-warning btn-sm float-right") %>
     </div>
   </div>
   <div class="row d-flex justify-content-center my-5">

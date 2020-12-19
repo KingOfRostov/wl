@@ -24,6 +24,7 @@ defmodule Wl.Accounts.Entities.User do
     user
     |> cast(attrs, @optional ++ @required)
     |> validate_required(@required)
+    |> validate_length(:username, min: 3, max: 18)
     |> unique_constraint(:username)
   end
 

@@ -1,0 +1,28 @@
+<%= form_for @changeset, @action, fn form -> %>
+<% IO.inspect(@changeset) %>
+  <div class="container">
+    <div class="form-group row mb-5">
+      <%= label form, "Username", class: "font-weight-normal col-12 col-sm-3 col-form-label text-sm-right" %>
+      <%= text_input form, :username, class: "form-control col-12 col-sm-8 col-lg-6" %>
+      <%= error_tag form, :username %>
+    </div>
+
+    <div class="form-group row mb-5">
+      <%= label form, "Name", class: "font-weight-normal col-12 col-sm-3 col-form-label text-sm-right" %>
+      <%= text_input form, :name, class: "form-control col-12 col-sm-8 col-lg-6" %>
+      <%= error_tag form, :name %>
+    </div>
+
+    <div class="form-group row mb-5">
+      <%= label form, "Surname", class: "font-weight-normal col-12 col-sm-3 col-form-label text-sm-right" %>
+      <%= text_input form, :surname, class: "form-control col-12 col-sm-8 col-lg-6" %>
+      <%= error_tag form, :surname %>
+    </div>
+
+    <div class="d-flex mb-2 justify-content-center">
+      <%= link("Cancel", to: Routes.user_path(@conn, :show, @user.id), class: "btn btn-danger col-1 mx-1") %>
+      <%= submit "Submit", class: "btn btn-success col-1 mx-1" %>
+    </div>
+
+  </div>
+<% end %>
