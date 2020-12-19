@@ -1,6 +1,13 @@
-defmodule WlWeb.PageControllerTest do
+defmodule WlWeb.UserControllerTest do
   use WlWeb.ConnCase
 
+  @valid_setup_user_params %{
+    name: "Test Setup Name",
+    surname: "Test Setup Surname",
+    username: "Test Setup Username",
+    password: "testpassword",
+    password_confirmation: "testpassword"
+  }
   @valid_user_params %{
     name: "Test Name",
     surname: "Test Surname",
@@ -8,7 +15,6 @@ defmodule WlWeb.PageControllerTest do
     password: "testpassword",
     password_confirmation: "testpassword"
   }
-
   @invalid_user_params %{
     name: "Test Name",
     surname: "Test Surname",
@@ -16,6 +22,21 @@ defmodule WlWeb.PageControllerTest do
     password: "testpassword",
     password_confirmation: "testpassword"
   }
+
+  setup %{conn: conn} do
+    Wl.Accounts.create_user(@valid_setup_user_params)
+
+    logged_in_conn =
+      post(
+        conn,
+        Routes.session_path(conn, :create, %{
+          "password" => @valid_setup_user_params.password,
+          "username" => @valid_setup_user_params.username
+        })
+      )
+
+    %{conn: logged_in_conn}
+  end
 
   describe "index/1" do
     test "list all users | GET /users", %{conn: conn} do

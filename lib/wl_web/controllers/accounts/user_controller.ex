@@ -1,6 +1,7 @@
 defmodule WlWeb.Accounts.UserController do
   use WlWeb, :controller
   alias Wl.Accounts
+  alias Wl.Accounts.Auth
 
   def index(conn, _params) do
     users = Accounts.list_users()
@@ -41,7 +42,14 @@ defmodule WlWeb.Accounts.UserController do
   def create(conn, %{"user" => user_params}) do
     case Accounts.create_user(user_params) do
       {:ok, user} ->
-        redirect(conn, to: Routes.user_path(conn, :show, user))
+        {:ok, access_token} = Auth.create_session(user)
+
+        conn
+        |> put_flash(:info, "Welcome #{user.username}!")
+        |> put_session(:token, access_token)
+        |> put_session(:current_user_id, user.id)
+        |> put_session(:logged_in, true)
+        |> redirect(to: Routes.user_path(conn, :show, user))
 
       {:error, changeset} ->
         conn

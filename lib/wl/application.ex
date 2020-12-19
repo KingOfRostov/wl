@@ -6,6 +6,8 @@ defmodule Wl.Application do
   use Application
 
   def start(_type, _args) do
+    import Supervisor.Spec
+
     children = [
       # Start the Ecto repository
       Wl.Repo,
@@ -14,7 +16,8 @@ defmodule Wl.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Wl.PubSub},
       # Start the Endpoint (http/https)
-      WlWeb.Endpoint
+      WlWeb.Endpoint,
+      supervisor(Wl.Accounts.Services.SessionStorage, [])
       # Start a worker by calling: Wl.Worker.start_link(arg)
       # {Wl.Worker, arg}
     ]

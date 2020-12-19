@@ -39,6 +39,7 @@ defmodule Wl.MixProject do
       {:credo, "~> 1.3", only: [:dev, :test], runtime: false},
       {:ecto_sql, "~> 3.4"},
       {:ex_machina, "~> 2.2", only: [:test]},
+      {:ex_crypto, "~> 0.10"},
       {:faker, "~> 0.10", only: [:test]},
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},

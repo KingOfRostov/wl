@@ -18,6 +18,9 @@ config :wl, WlWeb.Endpoint,
   pubsub_server: Wl.PubSub,
   live_view: [signing_salt: "wuoa7xfM"]
 
+config :wl,
+  secret_auth_aes_256_key: "BYBrD0AWrHDxY4k6Ru6b43FHgUcu7ImZFuXYBI1ST0A="
+
 config :arc,
   storage: Arc.Storage.Local
 
