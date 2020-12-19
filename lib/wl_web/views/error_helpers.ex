@@ -10,8 +10,8 @@ defmodule WlWeb.ErrorHelpers do
   """
   def error_tag(form, field) do
     Enum.map(Keyword.get_values(form.errors, field), fn error ->
-      content_tag(:li, translate_error(error),
-        class: "ml-3 mt-2 text-danger",
+      content_tag(:p, translate_error(error),
+        class: "ml-3 mt-2 text-danger d-block",
         phx_feedback_for: input_id(form, field)
       )
     end)

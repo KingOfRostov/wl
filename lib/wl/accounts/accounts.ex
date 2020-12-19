@@ -12,6 +12,8 @@ defmodule Wl.Accounts do
   ### USER ###
   def archive_user(user), do: ArchiveUser.process(user)
   def update_user(user, params), do: UpdateUser.process(user, params)
+
+  def user_changeset, do: GetUserChangeset.process()
   def user_changeset(user), do: GetUserChangeset.process(user)
 
   def change_user_password(user, new_password, new_password_confirmation),

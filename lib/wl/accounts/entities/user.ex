@@ -75,8 +75,7 @@ defmodule Wl.Accounts.Entities.User do
 
         _ ->
           [
-            password_confirmation:
-              options[:message] || "The password is not equal to password confirmation"
+            password_confirmation: options[:message] || "Wrong password confirmation"
           ]
       end
     end)

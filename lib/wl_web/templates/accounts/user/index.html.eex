@@ -1,18 +1,29 @@
 <div class="container">
-  <div class="row d-flex justify-content-center my-5">
-    <span class="h3"> USERS </span>
-  </div>
-  <%= for user <- @users do %>
-    <div class="row d-flex justify-content-center my-5">
-      <div class="card col-4" style="width: 18rem;">
-        <div class="card-body">
-          <span class="h5 card-title"> <%= user.username %> </span>
-          <p class="card-text h3"> <%= user.name %> <%= user.surname %> </p>
+  <div class="row">
+    <div class="col-11">
+      <div class="row d-flex justify-content-center my-5">
+        <div class="col text-center">
+          <span class="h3"> USERS </span>
         </div>
       </div>
-      <div class="col-1">
-      <%= link("Details", to: Routes.user_path(@conn, :show, user.id), class: "py-5 btn btn-primary btn-sm float-right") %>
+      <%= for user <- @users do %>
+        <div class="row d-flex justify-content-center my-5">
+          <div class="card" style="width: 20rem;">
+            <div class="card-body">
+              <span class="h5 card-title"> <%= user.username %> </span>
+              <p class="card-text h3"> <%= user.name %> <%= user.surname %> </p>
+            </div>
+          </div>
+          <div>
+            <%= link("Details", to: Routes.user_path(@conn, :show, user.id), class: "py-5 px-3 mx-2 btn btn-primary btn-sm float-right") %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <div class="col-1">
+      <div class="row d-flex justify-content-end my-5">
+        <%= link("New", to: Routes.user_path(@conn, :new), class: "py-2 px-3 btn btn-success btn-sm float-right") %>
       </div>
     </div>
-  <% end %>
+  </div>
 </div>
