@@ -28,6 +28,7 @@ defmodule WlWeb.Accounts.UserController do
       {:error, changeset} ->
         conn
         |> put_flash(:error, "Oops, something went wrong! Please check the errors below.")
+        |> put_status(422)
         |> render("edit.html", %{user: user, changeset: changeset})
     end
   end
@@ -45,6 +46,7 @@ defmodule WlWeb.Accounts.UserController do
       {:error, changeset} ->
         conn
         |> put_flash(:error, "Oops, something went wrong! Please check the errors below.")
+        |> put_status(422)
         |> render("new.html", %{changeset: changeset})
     end
   end

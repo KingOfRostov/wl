@@ -22,6 +22,7 @@ defmodule WlWeb.ChannelCase do
       # Import conveniences for testing with channels
       import Phoenix.ChannelTest
       import WlWeb.ChannelCase
+      import Wl.Factories.Factory
 
       # The default endpoint for testing
       @endpoint WlWeb.Endpoint
