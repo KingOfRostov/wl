@@ -4,7 +4,8 @@ defmodule WlWeb.Accounts.UserController do
   alias Wl.Accounts.Auth
 
   def index(conn, _params) do
-    users = Accounts.list_users()
+    current_user_id = get_session(conn, :current_user_id)
+    users = Accounts.list_users(current_user_id)
     render(conn, "index.html", %{users: users})
   end
 
