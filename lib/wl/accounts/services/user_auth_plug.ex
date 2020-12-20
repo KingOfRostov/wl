@@ -14,6 +14,9 @@ defmodule Wl.Accounts.Services.UserAuthPlug do
       _ ->
         conn
         |> put_flash(:error, "You need to be signed in to access that page.")
+        |> delete_session(:token)
+        |> delete_session(:current_user_id)
+        |> delete_session(:logged_in)
         |> redirect(to: Routes.session_path(conn, :new))
         |> halt()
     end
