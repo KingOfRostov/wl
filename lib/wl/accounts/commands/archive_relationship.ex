@@ -1,5 +1,5 @@
 defmodule Wl.Accounts.Commands.ArchiveRelationship do
-  alias Wl.Accounts.Entities.Relationship
+  alias Wl.Accounts.Entities.{Relationship, User}
   alias Wl.Repo
   import Ecto.Query
 
@@ -16,9 +16,16 @@ defmodule Wl.Accounts.Commands.ArchiveRelationship do
         {:error, "Already unfollowed"}
 
       relationship ->
-        relationship
-        |> Relationship.update_relationship_changeset(%{archived_at: NaiveDateTime.utc_now()})
-        |> Repo.update()
+        Repo.transaction(fn ->
+          follower_user_query = from u in User, where: u.id == ^follower_user_id
+          followed_user_query = from u in User, where: u.id == ^followed_user_id
+          Repo.update_all(follower_user_query, inc: [followed_number: -1])
+          Repo.update_all(followed_user_query, inc: [followers_number: -1])
+
+          relationship
+          |> Relationship.update_relationship_changeset(%{archived_at: NaiveDateTime.utc_now()})
+          |> Repo.update()
+        end)
     end
   end
 end

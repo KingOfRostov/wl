@@ -61,15 +61,17 @@ defmodule WlWeb.Accounts.UserController do
   end
 
   def follow(conn, %{"id" => follower_user_id, "followed_user_id" => followed_user_id}) do
-    user = Accounts.get_user(followed_user_id)
-
     case Accounts.follow(follower_user_id, followed_user_id) do
       {:ok, _} ->
+        user = Accounts.get_user(followed_user_id)
+
         conn
         |> put_flash(:info, "Now you're following user #{user.username}!")
         |> render("show.html", %{user: user})
 
       {:error, changeset} ->
+        user = Accounts.get_user(followed_user_id)
+
         conn
         |> put_flash(:error, changeset_first_error_to_message(changeset))
         |> put_status(422)
@@ -82,11 +84,15 @@ defmodule WlWeb.Accounts.UserController do
 
     case Accounts.unfollow(follower_user_id, followed_user_id) do
       {:ok, _} ->
+        user = Accounts.get_user(followed_user_id)
+
         conn
         |> put_flash(:info, "You're not following user #{user.username} anymore!")
         |> render("show.html", %{user: user})
 
       {:error, message} ->
+        user = Accounts.get_user(followed_user_id)
+
         conn
         |> put_flash(:error, message)
         |> put_status(422)

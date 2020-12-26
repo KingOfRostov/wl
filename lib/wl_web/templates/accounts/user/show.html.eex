@@ -17,6 +17,23 @@
   </div>
   <div class="row d-flex justify-content-center my-5">
     <ul class="list-group col-5">
+      <li class="list-group-item d-flex">
+        <div class="font-weight-bold">
+          Followers:
+        </div>
+        <div class="ml-1">
+          <%= @user.followers_number %>
+        </div>
+      </li>
+
+      <li class="list-group-item d-flex">
+        <div class="font-weight-bold">
+          Followed:
+        </div>
+        <div class="ml-1">
+          <%= @user.followed_number %>
+        </div>
+      </li>
       <%= if @user.profile_photo do %>
         <li class="list-group-item d-flex">
           <div class="ml-1">
