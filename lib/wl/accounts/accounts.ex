@@ -7,7 +7,7 @@ defmodule Wl.Accounts do
     UpdateUser
   }
 
-  alias Wl.Accounts.Queries.{GetUser, GetUserChangeset, ListUsers}
+  alias Wl.Accounts.Queries.{GetUser, GetUserByUsername, GetUserChangeset, ListUsers}
 
   ### USER ###
   def archive_user(user), do: ArchiveUser.process(user)
@@ -23,5 +23,7 @@ defmodule Wl.Accounts do
 
   def create_user(attrs), do: CreateUser.process(attrs)
   def get_user(id), do: GetUser.process(id)
+  def get_user_by_username(username), do: GetUserByUsername.process(username)
   def list_users, do: ListUsers.process()
+  def list_users(current_user_id), do: ListUsers.process(current_user_id)
 end

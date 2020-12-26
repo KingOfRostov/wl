@@ -13,11 +13,20 @@ defmodule WlWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :user_auth do
+    plug Wl.Accounts.Services.UserAuthPlug
+  end
+
   scope "/", WlWeb do
     pipe_through :browser
 
-    resources "/users", Accounts.UserController, except: [:delete]
     get "/", PageController, :index
+    resources "/session", Accounts.SessionController, only: [:create, :new]
+    delete "/session", Accounts.SessionController, :delete, singleton: true
+    resources "/users", Accounts.UserController, only: [:new, :create]
+    pipe_through [:user_auth]
+
+    resources "/users", Accounts.UserController, except: [:delete, :new, :create]
   end
 
   # Other scopes may use custom stacks.

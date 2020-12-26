@@ -9,7 +9,9 @@
       </div>
     </div>
     <div class="col-4">
-      <%= link("Edit", to: Routes.user_path(@conn, :edit, @user.id), class: "py-2 px-3 btn btn-warning btn-sm float-right") %>
+      <%= if @user.id == get_session(@conn, :current_user_id) do %>
+        <%= link("Edit", to: Routes.user_path(@conn, :edit, @user.id), class: "py-2 px-3 btn btn-warning btn-sm float-right") %>
+      <% end %>
     </div>
   </div>
   <div class="row d-flex justify-content-center my-5">

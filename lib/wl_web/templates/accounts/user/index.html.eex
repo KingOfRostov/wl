@@ -26,15 +26,10 @@
             </div>
           </div>
           <div>
-            <%= link("Details", to: Routes.user_path(@conn, :show, user.id), class: "py-5 px-3 mx-2 btn btn-primary btn-sm float-right") %>
+            <%= link("Details", to: Routes.user_path(@conn, :show, user.id), class: "py-5 px-3 mx-2 btn btn-primary btn-sm") %>
           </div>
         </div>
       <% end %>
-    </div>
-    <div class="col-1">
-      <div class="row d-flex justify-content-end my-5">
-        <%= link("New", to: Routes.user_path(@conn, :new), class: "py-2 px-3 btn btn-success btn-sm float-right") %>
-      </div>
     </div>
   </div>
 </div>
