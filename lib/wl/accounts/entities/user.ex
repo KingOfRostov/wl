@@ -4,9 +4,10 @@ defmodule Wl.Accounts.Entities.User do
 
   import Ecto.Changeset
   alias Ecto.Changeset
+  alias Wl.Accounts.Entities.Relationship
   alias Wl.ImageUploader
 
-  @preload_list []
+  @preload_list [:followers, :followed]
   @required [:name, :surname, :username]
   @optional [:archived_at, :profile_photo]
   @password_fields [:password, :password_confirmation]
@@ -19,6 +20,18 @@ defmodule Wl.Accounts.Entities.User do
     field :password_hash, :string
     field :profile_photo, ImageUploader.Type
     field :archived_at, :naive_datetime
+
+    has_many :followed_relationships, Relationship,
+      foreign_key: :follower_user_id,
+      where: [archived_at: nil]
+
+    has_many :followed, through: [:followed_relationships, :followed_user]
+
+    has_many :followers_relationships, Relationship,
+      foreign_key: :followed_user_id,
+      where: [archived_at: nil]
+
+    has_many :followers, through: [:followers_relationships, :follower_user]
     timestamps()
   end
 
