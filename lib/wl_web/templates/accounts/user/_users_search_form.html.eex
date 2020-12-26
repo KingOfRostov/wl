@@ -1,0 +1,9 @@
+<%= form_for @conn, Routes.user_path(@conn, :index), [method: :get], fn form -> %>
+  <div class="container">
+    <div class="form-group row justify-content-center">
+      <%= text_input form, :search, class: "col-form-label col-4", placeholder: "Search" %>
+      <%= error_tag form, :search %>
+      <%= submit "Find", class: "btn btn-outline-primary mx-3 px-4" %>
+    </div>
+  </div>
+<% end %>

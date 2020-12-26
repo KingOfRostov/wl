@@ -37,7 +37,9 @@ defmodule Wl.Accounts do
   def get_user(id), do: GetUser.process(id)
   def get_user_by_username(username), do: GetUserByUsername.process(username)
   def list_users, do: ListUsers.process()
-  def list_users(current_user_id), do: ListUsers.process(current_user_id)
+
+  def list_users(current_user_id, search_params),
+    do: ListUsers.process(current_user_id, search_params)
 
   ### RELATIONSHIP ###
   def is_following?(follower_user_id, followed_user_id),

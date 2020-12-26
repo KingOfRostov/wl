@@ -43,6 +43,7 @@ defmodule Wl.MixProject do
       {:faker, "~> 0.10", only: [:test]},
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
+      {:params, "~> 2.0"},
       {:phoenix, "~> 1.5.0"},
       {:phoenix_ecto, "~> 4.1"},
       {:postgrex, ">= 0.0.0"},

@@ -1,11 +1,22 @@
 defmodule WlWeb.Accounts.UserController do
   use WlWeb, :controller
+
+  use Params
   alias Wl.Accounts
   alias Wl.Accounts.Auth
 
-  def index(conn, _params) do
+  defparams(
+    user_search(%{
+      search: [field: :string, default: nil]
+    })
+  )
+
+  def index(conn, params) do
+    changeset = user_search(params)
+    search_params = Params.to_map(changeset)
+
     current_user_id = get_session(conn, :current_user_id)
-    users = Accounts.list_users(current_user_id)
+    users = Accounts.list_users(current_user_id, search_params)
     render(conn, "index.html", %{users: users})
   end
 
