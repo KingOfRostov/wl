@@ -15,6 +15,7 @@ defmodule Wl.Accounts do
     GetUser,
     GetUserByUsername,
     GetUserChangeset,
+    IsFollowing,
     ListUserFollowed,
     ListUserFollowers,
     ListUsers
@@ -39,6 +40,9 @@ defmodule Wl.Accounts do
   def list_users(current_user_id), do: ListUsers.process(current_user_id)
 
   ### RELATIONSHIP ###
+  def is_following?(follower_user_id, followed_user_id),
+    do: IsFollowing.process(follower_user_id, followed_user_id)
+
   def follow(%User{id: follower_user_id}, %User{id: followed_user_id}),
     do:
       create_relationship(%{

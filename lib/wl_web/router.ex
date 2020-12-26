@@ -27,6 +27,8 @@ defmodule WlWeb.Router do
     pipe_through [:user_auth]
 
     resources "/users", Accounts.UserController, except: [:delete, :new, :create]
+    post "/users/:id/follow", Accounts.UserController, :follow
+    post "/users/:id/unfollow", Accounts.UserController, :unfollow
   end
 
   # Other scopes may use custom stacks.
