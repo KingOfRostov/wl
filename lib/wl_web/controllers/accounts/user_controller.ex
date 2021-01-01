@@ -7,7 +7,9 @@ defmodule WlWeb.Accounts.UserController do
 
   defparams(
     user_search(%{
-      search: [field: :string, default: nil]
+      search: [field: :string, default: nil],
+      followed_user_id: [field: :integer, default: nil],
+      follower_user_id: [field: :integer, default: nil]
     })
   )
 
@@ -91,8 +93,6 @@ defmodule WlWeb.Accounts.UserController do
   end
 
   def unfollow(conn, %{"id" => follower_user_id, "followed_user_id" => followed_user_id}) do
-    user = Accounts.get_user(followed_user_id)
-
     case Accounts.unfollow(follower_user_id, followed_user_id) do
       {:ok, _} ->
         user = Accounts.get_user(followed_user_id)

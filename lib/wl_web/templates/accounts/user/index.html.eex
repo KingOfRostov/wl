@@ -33,8 +33,12 @@
                       <p class="card-text h5"> <%= user.name %> <%= user.surname %> </p>
                     <% end %>
                     <p class="card-title font-italic text-muted"> <%= "@#{user.username}" %> </p>
-                    <p class="card-text my-1"> <%= "Followers: #{user.followers_number}" %> </p>
-                    <p class="card-text my-1"> <%= "Followed: #{user.followed_number}" %> </p>
+                    <p class="card-text my-1"> <%= "Followers:"%>
+                      <%= link(user.followers_number, to: Routes.user_path(@conn, :index, follower_user_id: user.id))%>
+                    </p>
+                    <p class="card-text my-1"> <%= "Followed:"%>
+                      <%= link(user.followed_number, to: Routes.user_path(@conn, :index, followed_user_id: user.id))%>
+                    </p>
                   </div>
                 </div>
               </div>
