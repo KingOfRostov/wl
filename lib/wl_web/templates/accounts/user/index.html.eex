@@ -16,25 +16,28 @@
       <% else %>
         <%= for user <- @users do %>
           <div class="row d-flex justify-content-center my-5">
-            <div class="card" style="width: 25rem;">
+            <div class="card user-index-card-width">
               <div class="card-body">
                 <div class="row d-flex justify-content-center align-self-center">
                   <div class="col-5">
                     <%= if user.profile_photo do %>
-                      <img class="profile-photo-index-avatar" src="<%= Wl.ImageUploader.url(user.profile_photo, :avatar)%>">
+                      <%= link(to: Routes.user_path(@conn, :show, user.id)) do %>
+                        <img class="profile-photo-index-avatar" src="<%= Wl.ImageUploader.url(user.profile_photo, :avatar)%>">
+                      <% end %>
                     <% else %>
                       <span>(No photo)</span>
                     <% end %>
                   </div>
                   <div class="col justify-content-center align-self-center">
-                    <p class="h6 card-title"> <%= user.username %> </p>
-                    <p class="card-text h5"> <%= user.name %> <%= user.surname %> </p>
+                    <%= link(to: Routes.user_path(@conn, :show, user.id)) do %>
+                      <p class="card-text h5"> <%= user.name %> <%= user.surname %> </p>
+                    <% end %>
+                    <p class="card-title font-italic text-muted"> <%= "@#{user.username}" %> </p>
+                    <p class="card-text my-1"> <%= "Followers: #{user.followers_number}" %> </p>
+                    <p class="card-text my-1"> <%= "Followed: #{user.followed_number}" %> </p>
                   </div>
                 </div>
               </div>
-            </div>
-            <div>
-              <%= link("Details", to: Routes.user_path(@conn, :show, user.id), class: "py-5 px-3 mx-2 btn btn-primary btn-sm") %>
             </div>
           </div>
         <% end %>
