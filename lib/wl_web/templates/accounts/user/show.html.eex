@@ -36,7 +36,13 @@
       <%= if @user.profile_photo do %>
         <li class="list-group-item d-flex">
           <div class="ml-1">
-            <img src="<%= Wl.ImageUploader.url(@user.profile_photo, :tiny)%>">
+            <img src="<%= Wl.ImageUploader.url(@user.profile_photo, :avatar)%>">
+          </div>
+        </li>
+      <% else %>
+        <li class="list-group-item d-flex">
+          <div class="ml-1">
+            <img class="default-user-avatar" src="<%= Routes.static_path(@conn, "/images/default_user_avatar.jpg")%>">
           </div>
         </li>
       <% end %>

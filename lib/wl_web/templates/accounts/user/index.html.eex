@@ -25,7 +25,9 @@
                         <img class="profile-photo-index-avatar" src="<%= Wl.ImageUploader.url(user.profile_photo, :avatar)%>">
                       <% end %>
                     <% else %>
-                      <span>(No photo)</span>
+                      <%= link(to: Routes.user_path(@conn, :show, user.id)) do %>
+                        <img class="profile-photo-index-avatar" src="<%= Routes.static_path(@conn, "/images/default_user_avatar.jpg")%>">
+                      <% end %>
                     <% end %>
                   </div>
                   <div class="col justify-content-center align-self-center">
