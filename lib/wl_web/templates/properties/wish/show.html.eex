@@ -2,7 +2,8 @@
   <div class="row d-flex justify-content-center my-5">
     <div class="col-4">
       <%= if @wish.user_id == get_session(@conn, :current_user_id) do %>
-        <%= link("Edit", to: Routes.wish_path(@conn, :edit, @wish.user_id), class: "py-2 px-3 btn btn-warning btn-sm float-right") %>
+        <%= link("Edit", to: Routes.wish_path(@conn, :edit, @wish.user_id), class: "py-2 px-3 mx-1 btn btn-warning btn-sm float-right") %>
+        <%= link("Delete", to: Routes.wish_path(@conn, :archive, @wish.user_id), method: :post, class: "py-2 px-3 mx-1 btn btn-danger btn-sm float-right") %>
       <% end %>
     </div>
     <div class="col-4 d-flex">

@@ -26,14 +26,34 @@ defmodule WlWeb.Properties.WishController do
   end
 
   def show(conn, %{"id" => id}) do
+    user_id = get_session(conn, :current_user_id)
     wish = Properties.get_wish(id)
-    render(conn, "show.html", %{wish: wish})
+
+    case wish do
+      nil ->
+        conn
+        |> put_flash(:error, "Not found.")
+        |> redirect(to: Routes.user_path(conn, :show, user_id))
+
+      wish ->
+        render(conn, "show.html", %{wish: wish})
+    end
   end
 
   def edit(conn, %{"id" => id}) do
+    user_id = get_session(conn, :current_user_id)
     wish = Properties.get_wish(id)
-    changeset = Properties.wish_changeset(wish)
-    render(conn, "edit.html", %{wish: wish, changeset: changeset})
+
+    case wish do
+      nil ->
+        conn
+        |> put_flash(:error, "Not found.")
+        |> redirect(to: Routes.user_path(conn, :show, user_id))
+
+      wish ->
+        changeset = Properties.wish_changeset(wish)
+        render(conn, "edit.html", %{wish: wish, changeset: changeset})
+    end
   end
 
   def update(conn, %{"id" => id, "wish" => wish_params}) do
@@ -48,6 +68,21 @@ defmodule WlWeb.Properties.WishController do
         |> put_flash(:error, "Oops, something went wrong! Please check the errors below.")
         |> put_status(422)
         |> render("edit.html", %{wish: wish, changeset: changeset})
+    end
+  end
+
+  def archive(conn, %{"id" => id}) do
+    wish = Properties.get_wish(id)
+
+    case Properties.archive_wish(wish) do
+      {:ok, wish} ->
+        redirect(conn, to: Routes.user_path(conn, :show, wish.user_id))
+
+      {:error, _changeset} ->
+        conn
+        |> put_flash(:error, "Already archived.")
+        |> put_status(422)
+        |> render("show.html", %{wish: wish})
     end
   end
 end
