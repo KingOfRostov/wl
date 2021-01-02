@@ -9,7 +9,9 @@ defmodule WlWeb.Accounts.UserController do
     user_search(%{
       search: [field: :string, default: nil],
       followed_user_id: [field: :integer, default: nil],
-      follower_user_id: [field: :integer, default: nil]
+      follower_user_id: [field: :integer, default: nil],
+      page!: [field: :integer, default: 1],
+      page_size!: [field: :integer, default: 2]
     })
   )
 

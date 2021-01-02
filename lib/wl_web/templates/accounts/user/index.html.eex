@@ -7,14 +7,14 @@
         </div>
       </div>
       <%= render "_users_search_form.html", %{conn: @conn} %>
-      <%= if Enum.empty?(@users) do %>
+      <%= if Enum.empty?(@users.entries) do %>
         <div class="row my-5">
           <div class="col d-flex justify-content-center">
             <span class="h4 font-italic"> No result </span>
           </div>
         </div>
       <% else %>
-        <%= for user <- @users do %>
+        <%= for user <- @users.entries do %>
           <div class="row d-flex justify-content-center my-5">
             <div class="card user-index-card-width">
               <div class="card-body">
@@ -46,6 +46,16 @@
               </div>
             </div>
           </div>
+        <% end %>
+        <% page_number = @users.page_number %>
+        <% page_size = @users.page_size %>
+        <% total_pages = @users.total_pages %>
+        <%= if page_number <= total_pages and page_number > 1 do %>
+          <%= link(page_number - 1, to: Routes.user_path(@conn, :index, Map.merge(@conn.params, %{page: page_number - 1, page_size: page_size})), class: "mx-1")%>
+        <% end %>
+        <%= page_number %>
+        <%= if page_number < total_pages do %>
+          <%= link(page_number + 1, to: Routes.user_path(@conn, :index, Map.merge(@conn.params, %{page: page_number + 1, page_size: page_size})), class: "mx-1")%>
         <% end %>
       <% end %>
     </div>

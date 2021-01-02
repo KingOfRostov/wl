@@ -9,7 +9,7 @@ defmodule Wl.Accounts.Queries.ListUsers do
     |> where([{:user, u}], is_nil(u.archived_at))
     |> Filter.add_query(search_params)
     |> order_by([{:user, u}], [{:desc, u.id == ^current_user_id}, {:asc, u.inserted_at}])
-    |> Repo.all()
+    |> Repo.paginate(search_params)
   end
 
   def process do
