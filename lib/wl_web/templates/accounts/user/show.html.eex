@@ -21,7 +21,7 @@
           Followers:
         </div>
         <div class="ml-1">
-          <%= @user.followers_number %>
+          <%= link(@user.followers_number, to: Routes.user_path(@conn, :index, follower_user_id: @user.id))%>
         </div>
       </li>
 
@@ -30,7 +30,7 @@
           Followed:
         </div>
         <div class="ml-1">
-          <%= @user.followed_number %>
+          <%= link(@user.followed_number, to: Routes.user_path(@conn, :index, followed_user_id: @user.id))%>
         </div>
       </li>
       <%= if @user.profile_photo do %>
