@@ -40,7 +40,7 @@
           Wishes:
         </div>
         <div class="ml-1">
-          <%= link(@user.wishes, to: "#")%>
+          <%= link(@user.wishes_number, to: "#")%>
         </div>
       </li>
       <%= if @user.profile_photo do %>

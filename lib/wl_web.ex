@@ -44,6 +44,17 @@ defmodule WlWeb do
         root: "lib/wl_web/templates",
         namespace: WlWeb
 
+      def get_previous_page_class(page_number, total_pages)
+          when page_number <= total_pages and page_number > 1,
+          do: "page-item"
+
+      def get_previous_page_class(_, _), do: "page-item disabled"
+
+      def get_next_page_class(page_number, total_pages)
+          when page_number < total_pages,
+          do: "page-item"
+
+      def get_next_page_class(_, _), do: "page-item disabled"
       import Plug.Conn, only: [get_session: 2]
       # Import convenience functions from controllers
       import Phoenix.Controller, only: [get_flash: 1, get_flash: 2, view_module: 1]
