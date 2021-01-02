@@ -41,6 +41,9 @@
                     <p class="card-text my-1"> <%= "Followed:"%>
                       <%= link(user.followed_number, to: Routes.user_path(@conn, :index, followed_user_id: user.id))%>
                     </p>
+                     <p class="card-text my-1"> <%= "Wishes:"%>
+                      <%= link(user.wishes_number, to: "#")%>
+                    </p>
                   </div>
                 </div>
               </div>
