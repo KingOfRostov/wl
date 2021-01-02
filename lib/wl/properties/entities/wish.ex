@@ -7,7 +7,7 @@ defmodule Wl.Properties.Entities.Wish do
   alias Wl.ImageUploader
 
   @preload_list [:user]
-  @required [:user_id, :name, :username]
+  @required [:user_id, :name]
   @optional [:archived_at, :image, :description]
   schema "wishes" do
     field :name, :string

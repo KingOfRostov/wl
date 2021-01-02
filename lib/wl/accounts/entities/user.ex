@@ -8,7 +8,7 @@ defmodule Wl.Accounts.Entities.User do
   alias Wl.ImageUploader
   alias Wl.Properties.Entities.Wish
 
-  @preload_list [:followers, :followed]
+  @preload_list [:followers, :followed, :wishes]
   @required [:name, :surname, :username]
   @optional [:archived_at, :profile_photo, :followers_number, :followed_number]
   @password_fields [:password, :password_confirmation]
