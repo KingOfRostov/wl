@@ -1,6 +1,7 @@
 defmodule Wl.ImageUploader do
   use Arc.Definition
   use Arc.Ecto.Definition
+  import Ecto.Changeset, only: [get_change: 2]
   alias Ecto.UUID
 
   @extension_whitelist ~w(.jpg .jpeg .png)
@@ -66,4 +67,17 @@ defmodule Wl.ImageUploader do
   end
 
   def upload_file(%Plug.Upload{filename: filename}), do: filename
+
+  def delete_old_image(changeset, field_name) do
+    old_photo = Map.get(changeset.data, field_name)
+
+    new_photo = get_change(changeset, field_name)
+
+    if !is_nil(new_photo) and !is_nil(old_photo) do
+      delete(old_photo.file_name)
+      changeset
+    else
+      changeset
+    end
+  end
 end
