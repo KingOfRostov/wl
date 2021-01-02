@@ -1,6 +1,24 @@
 defmodule WlWeb.Properties.WishController do
   use WlWeb, :controller
+  use Params
   alias Wl.Properties
+
+  defparams(
+    wish_search(%{
+      search: [field: :string, default: nil],
+      user_id: [field: :integer, default: nil],
+      page!: [field: :integer, default: 1],
+      page_size!: [field: :integer, default: 5]
+    })
+  )
+
+  def index(conn, params) do
+    changeset = wish_search(params)
+    search_params = Params.to_map(changeset)
+
+    wishes = Properties.list_wishes(search_params)
+    render(conn, "index.html", %{wishes: wishes})
+  end
 
   def new(conn, _) do
     changeset = Properties.wish_changeset()

@@ -30,7 +30,7 @@ defmodule WlWeb.Router do
     resources "/users", Accounts.UserController, except: [:delete, :new, :create]
     post "/users/:id/follow", Accounts.UserController, :follow
     post "/users/:id/unfollow", Accounts.UserController, :unfollow
-    resources "/wishes", Properties.WishController, except: [:index, :delete]
+    resources "/wishes", Properties.WishController, except: [:delete]
     post "/wishes/:id/archive", Properties.WishController, :archive
   end
 

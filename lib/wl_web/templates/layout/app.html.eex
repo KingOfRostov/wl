@@ -18,6 +18,9 @@
               <li class="nav-item active">
                 <%= link("Users", to: Routes.user_path(@conn, :index), class: "nav-link") %>
               </li>
+              <li class="nav-item active">
+                <%= link("Wishes", to: Routes.wish_path(@conn, :index), class: "nav-link") %>
+              </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">Link</a>
               </li>

@@ -1,0 +1,47 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <div class="row d-flex justify-content-center my-5">
+        <div class="col text-center">
+          <span class="h3"> WISHES </span>
+        </div>
+      </div>
+      <%= render WlWeb.SharedTemplatesView, "_search_form.html", %{conn: @conn, action: Routes.wish_path(@conn, :index)} %>
+      <%= if Enum.empty?(@wishes.entries) do %>
+        <div class="row my-5">
+          <div class="col d-flex justify-content-center">
+            <span class="h4 font-italic"> No result </span>
+          </div>
+        </div>
+      <% else %>
+        <%= for wish <- @wishes.entries do %>
+          <div class="row d-flex justify-content-center my-5">
+            <div class="card wish-index-card-width">
+              <div class="card-body">
+                <div class="row d-flex justify-content-center align-self-center">
+                  <div class="col-5">
+                    <%= if wish.image do %>
+                      <%= link(to: Routes.wish_path(@conn, :show, wish.id)) do %>
+                        <img class="wish-image-index-avatar" src="<%= Wl.ImageUploader.url(wish.image, :avatar)%>">
+                      <% end %>
+                    <% else %>
+                      <%= link(to: Routes.wish_path(@conn, :show, wish.id)) do %>
+                        <img class="wish-image-index-avatar" src="<%= Routes.static_path(@conn, "/images/default_user_avatar.jpg")%>">
+                      <% end %>
+                    <% end %>
+                  </div>
+                  <div class="col justify-content-center align-self-center">
+                    <%= link(to: Routes.wish_path(@conn, :show, wish.id)) do %>
+                      <p class="card-text h5"> <%= wish.name %> </p>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+        <%= render WlWeb.SharedTemplatesView, "_pagination.html", %{conn: @conn, entities: @wishes, path: :wish_path} %>
+      <% end %>
+    </div>
+  </div>
+</div>
