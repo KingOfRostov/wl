@@ -46,6 +46,17 @@ defmodule WlWeb.UserControllerTest do
       assert html_response(conn, 200) =~ user_john.username
       assert html_response(conn, 200) =~ user_tony.username
     end
+
+    test "search | GET /users?search=", %{conn: conn} do
+      user_john = insert(:user, name: "John", surname: "King", username: "the_best_pirate")
+      user_amanda = insert(:user, name: "Amanda", surname: "Queen", username: "little_princes")
+      john_conn = get(conn, Routes.user_path(conn, :index), search: "John")
+      assert html_response(john_conn, 200) =~ user_john.username
+      refute html_response(john_conn, 200) =~ user_amanda.username
+      amanda_conn = get(conn, Routes.user_path(conn, :index), search: "aman que nces")
+      assert html_response(amanda_conn, 200) =~ user_amanda.username
+      refute html_response(amanda_conn, 200) =~ user_john.username
+    end
   end
 
   describe "show/2" do

@@ -1,11 +1,24 @@
 defmodule WlWeb.Accounts.UserController do
   use WlWeb, :controller
+
+  use Params
   alias Wl.Accounts
   alias Wl.Accounts.Auth
 
-  def index(conn, _params) do
+  defparams(
+    user_search(%{
+      search: [field: :string, default: nil],
+      followed_user_id: [field: :integer, default: nil],
+      follower_user_id: [field: :integer, default: nil]
+    })
+  )
+
+  def index(conn, params) do
+    changeset = user_search(params)
+    search_params = Params.to_map(changeset)
+
     current_user_id = get_session(conn, :current_user_id)
-    users = Accounts.list_users(current_user_id)
+    users = Accounts.list_users(current_user_id, search_params)
     render(conn, "index.html", %{users: users})
   end
 
@@ -57,6 +70,44 @@ defmodule WlWeb.Accounts.UserController do
         |> put_flash(:error, "Oops, something went wrong! Please check the errors below.")
         |> put_status(422)
         |> render("new.html", %{changeset: changeset})
+    end
+  end
+
+  def follow(conn, %{"id" => follower_user_id, "followed_user_id" => followed_user_id}) do
+    case Accounts.follow(follower_user_id, followed_user_id) do
+      {:ok, _} ->
+        user = Accounts.get_user(followed_user_id)
+
+        conn
+        |> put_flash(:info, "Now you're following user #{user.username}!")
+        |> render("show.html", %{user: user})
+
+      {:error, changeset} ->
+        user = Accounts.get_user(followed_user_id)
+
+        conn
+        |> put_flash(:error, changeset_first_error_to_message(changeset))
+        |> put_status(422)
+        |> render("show.html", %{user: user})
+    end
+  end
+
+  def unfollow(conn, %{"id" => follower_user_id, "followed_user_id" => followed_user_id}) do
+    case Accounts.unfollow(follower_user_id, followed_user_id) do
+      {:ok, _} ->
+        user = Accounts.get_user(followed_user_id)
+
+        conn
+        |> put_flash(:info, "You're not following user #{user.username} anymore!")
+        |> render("show.html", %{user: user})
+
+      {:error, message} ->
+        user = Accounts.get_user(followed_user_id)
+
+        conn
+        |> put_flash(:error, message)
+        |> put_status(422)
+        |> render("show.html", %{user: user})
     end
   end
 end

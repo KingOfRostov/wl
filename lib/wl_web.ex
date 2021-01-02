@@ -24,6 +24,17 @@ defmodule WlWeb do
       import Plug.Conn
       import WlWeb.Gettext
       alias WlWeb.Router.Helpers, as: Routes
+
+      def changeset_first_error_to_message(changeset) do
+        changeset
+        |> Ecto.Changeset.traverse_errors(fn {message, opts} ->
+          Regex.replace(~r"%{(\w+)}", message, fn _, key ->
+            opts |> Keyword.get(String.to_existing_atom(key), key) |> to_string()
+          end)
+        end)
+        |> Enum.at(0)
+        |> elem(1)
+      end
     end
   end
 

@@ -1,13 +1,25 @@
 defmodule Wl.Accounts do
+  alias Wl.Accounts.Entities.User
+
   alias Wl.Accounts.Commands.{
+    ArchiveRelationship,
     ArchiveUser,
     ChangeUserPassword,
     CheckUserPassword,
+    CreateRelationship,
     CreateUser,
     UpdateUser
   }
 
-  alias Wl.Accounts.Queries.{GetUser, GetUserByUsername, GetUserChangeset, ListUsers}
+  alias Wl.Accounts.Queries.{
+    GetUser,
+    GetUserByUsername,
+    GetUserChangeset,
+    IsFollowing,
+    ListUserFollowed,
+    ListUserFollowers,
+    ListUsers
+  }
 
   ### USER ###
   def archive_user(user), do: ArchiveUser.process(user)
@@ -25,5 +37,44 @@ defmodule Wl.Accounts do
   def get_user(id), do: GetUser.process(id)
   def get_user_by_username(username), do: GetUserByUsername.process(username)
   def list_users, do: ListUsers.process()
-  def list_users(current_user_id), do: ListUsers.process(current_user_id)
+
+  def list_users(current_user_id, search_params),
+    do: ListUsers.process(current_user_id, search_params)
+
+  ### RELATIONSHIP ###
+  def is_following?(follower_user_id, followed_user_id),
+    do: IsFollowing.process(follower_user_id, followed_user_id)
+
+  def follow(%User{id: follower_user_id}, %User{id: followed_user_id}),
+    do:
+      create_relationship(%{
+        follower_user_id: follower_user_id,
+        followed_user_id: followed_user_id
+      })
+
+  def follow(follower_user_id, followed_user_id),
+    do:
+      create_relationship(%{
+        follower_user_id: follower_user_id,
+        followed_user_id: followed_user_id
+      })
+
+  def unfollow(%User{id: follower_user_id}, %User{id: followed_user_id}),
+    do:
+      archive_relationship(%{
+        follower_user_id: follower_user_id,
+        followed_user_id: followed_user_id
+      })
+
+  def unfollow(follower_user_id, followed_user_id),
+    do:
+      archive_relationship(%{
+        follower_user_id: follower_user_id,
+        followed_user_id: followed_user_id
+      })
+
+  def list_user_followers(user_id), do: ListUserFollowers.process(user_id)
+  def list_user_followed(user_id), do: ListUserFollowed.process(user_id)
+  def create_relationship(attrs), do: CreateRelationship.process(attrs)
+  def archive_relationship(attrs), do: ArchiveRelationship.process(attrs)
 end

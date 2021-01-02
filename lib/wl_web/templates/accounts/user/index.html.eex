@@ -6,29 +6,47 @@
           <span class="h3"> USERS </span>
         </div>
       </div>
-      <%= for user <- @users do %>
-        <div class="row d-flex justify-content-center my-5">
-          <div class="card" style="width: 25rem;">
-            <div class="card-body">
-              <div class="row d-flex justify-content-center align-self-center">
-                <div class="col-5">
-                  <%= if user.profile_photo do %>
-                    <img class="profile-photo-index-avatar" src="<%= Wl.ImageUploader.url(user.profile_photo, :avatar)%>">
-                  <% else %>
-                    <span>(No photo)</span>
-                  <% end %>
-                </div>
-                <div class="col justify-content-center align-self-center">
-                  <p class="h6 card-title"> <%= user.username %> </p>
-                  <p class="card-text h5"> <%= user.name %> <%= user.surname %> </p>
+      <%= render "_users_search_form.html", %{conn: @conn} %>
+      <%= if Enum.empty?(@users) do %>
+        <div class="row my-5">
+          <div class="col d-flex justify-content-center">
+            <span class="h4 font-italic"> No result </span>
+          </div>
+        </div>
+      <% else %>
+        <%= for user <- @users do %>
+          <div class="row d-flex justify-content-center my-5">
+            <div class="card user-index-card-width">
+              <div class="card-body">
+                <div class="row d-flex justify-content-center align-self-center">
+                  <div class="col-5">
+                    <%= if user.profile_photo do %>
+                      <%= link(to: Routes.user_path(@conn, :show, user.id)) do %>
+                        <img class="profile-photo-index-avatar" src="<%= Wl.ImageUploader.url(user.profile_photo, :avatar)%>">
+                      <% end %>
+                    <% else %>
+                      <%= link(to: Routes.user_path(@conn, :show, user.id)) do %>
+                        <img class="profile-photo-index-avatar" src="<%= Routes.static_path(@conn, "/images/default_user_avatar.jpg")%>">
+                      <% end %>
+                    <% end %>
+                  </div>
+                  <div class="col justify-content-center align-self-center">
+                    <%= link(to: Routes.user_path(@conn, :show, user.id)) do %>
+                      <p class="card-text h5"> <%= user.name %> <%= user.surname %> </p>
+                    <% end %>
+                    <p class="card-title font-italic text-muted"> <%= "@#{user.username}" %> </p>
+                    <p class="card-text my-1"> <%= "Followers:"%>
+                      <%= link(user.followers_number, to: Routes.user_path(@conn, :index, follower_user_id: user.id))%>
+                    </p>
+                    <p class="card-text my-1"> <%= "Followed:"%>
+                      <%= link(user.followed_number, to: Routes.user_path(@conn, :index, followed_user_id: user.id))%>
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <div>
-            <%= link("Details", to: Routes.user_path(@conn, :show, user.id), class: "py-5 px-3 mx-2 btn btn-primary btn-sm") %>
-          </div>
-        </div>
+        <% end %>
       <% end %>
     </div>
   </div>

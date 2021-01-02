@@ -17,11 +17,11 @@ defmodule Wl.ImageUploader do
   #   {:convert, "-auto-orient -strip -thumbnail 500x500\>"}
   # end
 
-  def transform(:tiny, _) do
+  def transform(:avatar, _) do
     {:convert, "-auto-orient -strip -thumbnail 200x200\>"}
   end
 
-  def transform(:avatar, _) do
+  def transform(:tiny, _) do
     {:convert, "-auto-orient -strip -thumbnail 100x100\>"}
   end
 

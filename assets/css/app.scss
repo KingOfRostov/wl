@@ -38,6 +38,17 @@
 }
 
 .profile-photo-index-avatar {
-    background-color: #f0f2f5;
-    border-radius: 50% 50% 5% 5%;
+    width: 125px;
+    height: 125px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.default-user-avatar {
+    width: 125px;
+    height: 150px;
+}
+
+.user-index-card-width {
+    width: 25rem;
 }
