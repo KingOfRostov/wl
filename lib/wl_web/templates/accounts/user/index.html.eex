@@ -47,16 +47,33 @@
             </div>
           </div>
         <% end %>
-        <% page_number = @users.page_number %>
-        <% page_size = @users.page_size %>
-        <% total_pages = @users.total_pages %>
-        <%= if page_number <= total_pages and page_number > 1 do %>
-          <%= link(page_number - 1, to: Routes.user_path(@conn, :index, Map.merge(@conn.params, %{page: page_number - 1, page_size: page_size})), class: "mx-1")%>
-        <% end %>
-        <%= page_number %>
-        <%= if page_number < total_pages do %>
-          <%= link(page_number + 1, to: Routes.user_path(@conn, :index, Map.merge(@conn.params, %{page: page_number + 1, page_size: page_size})), class: "mx-1")%>
-        <% end %>
+        <div class="row my-5">
+          <div class="col d-flex justify-content-center">
+            <% page_number = @users.page_number %>
+            <% page_size = @users.page_size %>
+            <% total_pages = @users.total_pages %>
+            <% total_entries = @users.total_entries %>
+            <% start_index = (page_size * page_number + 1) - page_size %>
+            <% end_index = min(page_size * page_number, total_entries) %>
+            <nav class = "text-center" aria-label="Users Pagination">
+              <ul class="pagination pagination-lg">
+                <li class="<%= get_previous_page_class(page_number, total_pages)%>">
+                  <%= link(to: Routes.user_path(@conn, :index, Map.merge(@conn.params, %{page: page_number - 1, page_size: page_size})), class: "page-link") do %>
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                  <% end %>
+                </li>
+                <li class="<%= get_next_page_class(page_number, total_pages)%>">
+                  <%= link(to: Routes.user_path(@conn, :index, Map.merge(@conn.params, %{page: page_number + 1, page_size: page_size})), class: "page-link") do%>
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                  <% end %>
+                </li>
+              </ul>
+              <span class="text-muted"> <%= "#{start_index} - #{end_index}  из #{total_entries}" %> </span>
+            </nav>
+          </div>
+        </div>
       <% end %>
     </div>
   </div>
