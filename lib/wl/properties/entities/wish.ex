@@ -12,7 +12,7 @@ defmodule Wl.Properties.Entities.Wish do
   schema "wishes" do
     field :name, :string
     field :description, :string
-    field :image, :string
+    field :image, ImageUploader.Type
     field :archived_at, :naive_datetime
     belongs_to :user, User
     timestamps()

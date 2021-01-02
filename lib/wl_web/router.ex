@@ -24,11 +24,13 @@ defmodule WlWeb.Router do
     resources "/session", Accounts.SessionController, only: [:create, :new]
     delete "/session", Accounts.SessionController, :delete, singleton: true
     resources "/users", Accounts.UserController, only: [:new, :create]
+
     pipe_through [:user_auth]
 
     resources "/users", Accounts.UserController, except: [:delete, :new, :create]
     post "/users/:id/follow", Accounts.UserController, :follow
     post "/users/:id/unfollow", Accounts.UserController, :unfollow
+    resources "/wishes", Properties.WishController, except: [:index]
   end
 
   # Other scopes may use custom stacks.
