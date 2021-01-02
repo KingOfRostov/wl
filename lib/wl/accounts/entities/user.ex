@@ -6,6 +6,7 @@ defmodule Wl.Accounts.Entities.User do
   alias Ecto.Changeset
   alias Wl.Accounts.Entities.Relationship
   alias Wl.ImageUploader
+  alias Wl.Properties.Entities.Wish
 
   @preload_list [:followers, :followed]
   @required [:name, :surname, :username]
@@ -22,6 +23,8 @@ defmodule Wl.Accounts.Entities.User do
     field :password_hash, :string
     field :profile_photo, ImageUploader.Type
     field :archived_at, :naive_datetime
+
+    has_many :wishes, Wish
 
     has_many :followed_relationships, Relationship,
       foreign_key: :follower_user_id,
@@ -43,6 +46,7 @@ defmodule Wl.Accounts.Entities.User do
     user
     |> cast(attrs, @optional ++ @required)
     |> cast_attachments(attrs, [:profile_photo])
+    |> cast_assoc(:wishes)
     |> validate_required(@required)
     |> validate_length(:username, min: 3, max: 18)
     |> unique_constraint(:username)
