@@ -1,6 +1,7 @@
 defmodule WlWeb.Properties.WishController do
   use WlWeb, :controller
   use Params
+  alias Wl.Accounts
   alias Wl.Properties
 
   defparams(
@@ -15,9 +16,15 @@ defmodule WlWeb.Properties.WishController do
   def index(conn, params) do
     changeset = wish_search(params)
     search_params = Params.to_map(changeset)
+    username = Accounts.get_username_by_id(search_params.user_id)
 
     wishes = Properties.list_wishes(search_params)
-    render(conn, "index.html", %{wishes: wishes})
+
+    render(conn, "index.html", %{
+      wishes: wishes,
+      username: username,
+      user_id: search_params.user_id
+    })
   end
 
   def new(conn, _) do

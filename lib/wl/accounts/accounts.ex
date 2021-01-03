@@ -13,8 +13,9 @@ defmodule Wl.Accounts do
 
   alias Wl.Accounts.Queries.{
     GetUser,
-    GetUserByUsername,
     GetUserChangeset,
+    GetUserByUsername,
+    GetUsernameById,
     IsFollowing,
     ListUserFollowed,
     ListUserFollowers,
@@ -36,6 +37,7 @@ defmodule Wl.Accounts do
   def create_user(attrs), do: CreateUser.process(attrs)
   def get_user(id), do: GetUser.process(id)
   def get_user_by_username(username), do: GetUserByUsername.process(username)
+  def get_username_by_id(id), do: GetUsernameById.process(id)
   def list_users, do: ListUsers.process()
 
   def list_users(current_user_id, search_params),

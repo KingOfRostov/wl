@@ -3,9 +3,13 @@
     <div class="col">
       <div class="row d-flex justify-content-center my-5">
         <div class="col text-center">
+          <%= if @user_id do %>
+            <span class="h3"> <%= link(@username, to: Routes.user_path(@conn, :show, @user_id)) %> <%= "'s" %> </span>
+          <% end %>
           <span class="h3"> WISHES </span>
         </div>
       </div>
+
       <%= render WlWeb.SharedTemplatesView, "_search_form.html", %{conn: @conn, action: Routes.wish_path(@conn, :index)} %>
       <%= if Enum.empty?(@wishes.entries) do %>
         <div class="row my-5">
