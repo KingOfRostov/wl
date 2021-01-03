@@ -60,6 +60,19 @@
     object-fit: cover;
 }
 
+.wish-image-index-tiny {
+    transition: transform .5s ease;
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid lightsteelblue;
+}
+
+.wish-image-index-tiny:hover {
+    transform: scale(1.25);
+}
+
 .default-wish-avatar {
     width: 125px;
     height: 150px;

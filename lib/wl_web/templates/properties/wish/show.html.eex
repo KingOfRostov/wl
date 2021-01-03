@@ -31,7 +31,7 @@
       <% else %>
         <li class="list-group-item d-flex">
           <div class="ml-1">
-            <img class="default-user-avatar" src="<%= Routes.static_path(@conn, "/images/default_user_avatar.jpg")%>">
+            <img class="default-user-avatar" src="<%= Routes.static_path(@conn, "/images/default_wish_avatar.jpg")%>">
           </div>
         </li>
       <% end %>

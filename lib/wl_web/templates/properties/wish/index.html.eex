@@ -26,7 +26,7 @@
                       <% end %>
                     <% else %>
                       <%= link(to: Routes.wish_path(@conn, :show, wish.id)) do %>
-                        <img class="wish-image-index-avatar" src="<%= Routes.static_path(@conn, "/images/default_user_avatar.jpg")%>">
+                        <img class="wish-image-index-avatar" src="<%= Routes.static_path(@conn, "/images/default_wish_avatar.jpg")%>">
                       <% end %>
                     <% end %>
                   </div>
