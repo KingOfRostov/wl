@@ -44,6 +44,19 @@
     object-fit: cover;
 }
 
+.user-profile-photo-index-tiny {
+    transition: transform .5s ease;
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid lightsteelblue;
+}
+
+.user-profile-photo-index-tiny:hover {
+    transform: scale(1.25);
+}
+
 .default-user-avatar {
     width: 125px;
     height: 150px;
@@ -58,6 +71,7 @@
     height: 125px;
     border-radius: 50%;
     object-fit: cover;
+    border: 1px solid lightsteelblue;
 }
 
 .wish-image-index-tiny {
@@ -79,5 +93,5 @@
 }
 
 .wish-index-card-width {
-    width: 25rem;
+    width: 35rem;
 }
