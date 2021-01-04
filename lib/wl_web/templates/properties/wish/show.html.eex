@@ -11,7 +11,7 @@
     <div class="col">
       <%= if @wish.user_id == get_session(@conn, :current_user_id) do %>
         <%= link("Edit", to: Routes.wish_path(@conn, :edit, @wish), class: "py-2 px-3 mx-1 btn btn-warning btn-sm float-right") %>
-        <%= link("Delete", to: Routes.wish_path(@conn, :archive, @wish), method: :post, class: "py-2 px-3 mx-1 btn btn-danger btn-sm float-right") %>
+        <%= link("Delete", to: Routes.wish_path(@conn, :archive, @wish), method: :post, class: "py-2 px-3 mx-1 btn btn-danger btn-sm float-right", data: [confirm: "Are you sure?"]) %>
       <% end %>
     </div>
   </div>
