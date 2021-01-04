@@ -1,14 +1,15 @@
 <div class="container">
   <div class="row d-flex justify-content-center my-5">
-    <div class="col-4">
-      <%= if @user.id == get_session(@conn, :current_user_id) do %>
-        <%= link("Edit", to: Routes.user_path(@conn, :edit, @user.id), class: "py-2 px-3 btn btn-warning btn-sm float-right") %>
-      <% end %>
+    <div class="col">
     </div>
-    <div class="col-4 d-flex">
+    <div class="col-5 d-flex">
       <div class="h4 font-italic text-muted"><%= "@#{@user.username}" %></div>
     </div>
-    <div class="col-4">
+    <div class="col">
+      <%= if @user.id == get_session(@conn, :current_user_id) do %>
+        <%= link("Edit", to: Routes.user_path(@conn, :edit, @user.id), class: "py-2 px-3 mx-1 btn btn-warning btn-sm float-right") %>
+        <%= link("Add wish", to: Routes.wish_path(@conn, :new), class: "py-2 px-3 mx-1 btn btn-primary btn-sm float-right") %>
+      <% end %>
       <%= if @user.id !=  get_session(@conn, :current_user_id) do %>
         <%= render WlWeb.Accounts.RelationshipView, "_follow_unfollow.html", %{conn: @conn, showing_user: @user} %>
       <% end %>
@@ -16,23 +17,6 @@
   </div>
   <div class="row d-flex justify-content-center my-5">
     <ul class="list-group col-5">
-      <li class="list-group-item d-flex">
-        <div class="font-weight-bold">
-          Followers:
-        </div>
-        <div class="ml-1">
-          <%= link(@user.followers_number, to: Routes.user_path(@conn, :index, follower_user_id: @user.id))%>
-        </div>
-      </li>
-
-      <li class="list-group-item d-flex">
-        <div class="font-weight-bold">
-          Followed:
-        </div>
-        <div class="ml-1">
-          <%= link(@user.followed_number, to: Routes.user_path(@conn, :index, followed_user_id: @user.id))%>
-        </div>
-      </li>
       <%= if @user.profile_photo do %>
         <li class="list-group-item d-flex">
           <div class="ml-1">
@@ -61,6 +45,47 @@
         <div class="ml-1">
           <%= @user.surname %>
         </div>
+      </li>
+
+      <li class="list-group-item d-flex">
+        <div class="font-weight-bold">
+          Followers:
+        </div>
+        <div class="ml-1">
+          <%= link(@user.followers_number, to: Routes.user_path(@conn, :index, follower_user_id: @user.id))%>
+        </div>
+      </li>
+
+      <li class="list-group-item d-flex">
+        <div class="font-weight-bold">
+          Followed:
+        </div>
+        <div class="ml-1">
+          <%= link(@user.followed_number, to: Routes.user_path(@conn, :index, followed_user_id: @user.id))%>
+        </div>
+      </li>
+
+      <li class="list-group-item d-flex justify-content-center">
+        <%= if Enum.empty?@user.wishes() do %>
+          <p class="my-1 text-center font-italic text-muted"> <%= "(No wishes)"%> </p>
+        <% else %>
+          <span class="font-italic">
+            <%= link("Show all wishes (#{@user.wishes_number})", to: Routes.wish_path(@conn, :index, %{user_id: @user.id})) %>
+          </span>
+          <%= for wish <- Enum.take(@user.wishes, 3) do %>
+            <div class="text-center my-3 mx-2">
+              <%= if wish.image do %>
+                <%= link(to: Routes.wish_path(@conn, :show, wish.id), type: "button", data_toggle: "tooltip", data_placement: "top", title: wish.name) do %>
+                  <img class="wish-image-index-tiny" src="<%= Wl.ImageUploader.url(wish.image, :tiny)%>">
+                <% end %>
+              <% else %>
+                <%= link(to: Routes.wish_path(@conn, :show, wish.id), type: "button", data_toggle: "tooltip", data_placement: "top", title: wish.name) do %>
+                  <img class="wish-image-index-tiny" src="<%= Routes.static_path(@conn, "/images/default_wish_avatar.jpg")%>">
+                <% end %>
+              <% end %>
+            </div>
+          <% end %>
+        <% end %>
       </li>
     </ul>
   </div>

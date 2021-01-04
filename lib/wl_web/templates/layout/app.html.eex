@@ -12,11 +12,14 @@
     <header>
       <section class="container">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-          <%= link("Home", to: Routes.user_path(@conn, :index), class: "navbar-brand") %>
+          <%= link("Home", to: Routes.user_path(@conn, :show, get_session(@conn, :current_user_id)), class: "navbar-brand") %>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
               <li class="nav-item active">
                 <%= link("Users", to: Routes.user_path(@conn, :index), class: "nav-link") %>
+              </li>
+              <li class="nav-item active">
+                <%= link("Wishes", to: Routes.wish_path(@conn, :index), class: "nav-link") %>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">Link</a>

@@ -10,7 +10,7 @@ defmodule Wl.Accounts.Entities.User do
 
   @preload_list [:followers, :followed, :wishes]
   @required [:name, :surname, :username]
-  @optional [:archived_at, :profile_photo, :followers_number, :followed_number]
+  @optional [:archived_at, :profile_photo, :followers_number, :followed_number, :wishes_number]
   @password_fields [:password, :password_confirmation]
   schema "users" do
     field :name, :string
@@ -18,6 +18,8 @@ defmodule Wl.Accounts.Entities.User do
     field :username, :string
     field :followers_number, :integer, default: 0
     field :followed_number, :integer, default: 0
+    field :wishes_number, :integer, default: 0
+
     field :password, :string, virtual: true
     field :password_confirmation, :string, virtual: true
     field :password_hash, :string
