@@ -1,0 +1,97 @@
+/* This file is for your main application css. */
+
+@import '~bootstrap/scss/bootstrap.scss';
+
+/* Alerts and form errors */
+
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.alert-info {
+    color: #31708f;
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+}
+
+.alert-warning {
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+    border-color: #faebcc;
+}
+
+.alert-danger {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}
+
+.alert p {
+    margin-bottom: 0;
+}
+
+.alert:empty {
+    display: none;
+}
+
+.profile-photo-index-avatar {
+    width: 125px;
+    height: 125px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user-profile-photo-index-tiny {
+    transition: transform .5s ease;
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid lightsteelblue;
+}
+
+.user-profile-photo-index-tiny:hover {
+    transform: scale(1.25);
+}
+
+.default-user-avatar {
+    width: 125px;
+    height: 150px;
+}
+
+.user-index-card-width {
+    width: 25rem;
+}
+
+.wish-image-index-avatar {
+    width: 125px;
+    height: 125px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid lightsteelblue;
+}
+
+.wish-image-index-tiny {
+    transition: transform .5s ease;
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid lightsteelblue;
+}
+
+.wish-image-index-tiny:hover {
+    transform: scale(1.25);
+}
+
+.default-wish-avatar {
+    width: 125px;
+    height: 150px;
+}
+
+.wish-index-card-width {
+    width: 35rem;
+}

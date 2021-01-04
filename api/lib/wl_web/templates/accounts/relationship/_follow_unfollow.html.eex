@@ -1,0 +1,2 @@
+<% %{button_text: button_text, action: action, button_color_class: button_color_class} = get_follow_unfollow_button_text(@conn, get_session(@conn, :current_user_id), @showing_user.id) %>
+<%= link(button_text, to: action, method: :post, class: "py-2 px-3 mx-3 btn #{button_color_class} btn-sm") %>

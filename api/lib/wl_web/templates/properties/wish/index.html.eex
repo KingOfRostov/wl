@@ -1,0 +1,71 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <div class="row d-flex justify-content-center my-5">
+        <div class="col text-center">
+          <%= if @user_id do %>
+            <span class="h3"> <%= link(@username, to: Routes.user_path(@conn, :show, @user_id)) %> <%= "'s" %> </span>
+          <% end %>
+          <span class="h3"> WISHES </span>
+        </div>
+      </div>
+
+      <%= render WlWeb.SharedTemplatesView, "_search_form.html", %{conn: @conn, action: Routes.wish_path(@conn, :index)} %>
+      <%= if Enum.empty?(@wishes.entries) do %>
+        <div class="row my-5">
+          <div class="col d-flex justify-content-center">
+            <span class="h4 font-italic"> No result </span>
+          </div>
+        </div>
+      <% else %>
+        <%= for wish <- @wishes.entries do %>
+          <div class="row d-flex justify-content-center my-5">
+            <div class="card wish-index-card-width">
+              <div class="card-body">
+                <div class="row d-flex justify-content-center">
+                  <div class="col-4 border-right">
+                    <%= if wish.image do %>
+                      <%= link(to: Routes.wish_path(@conn, :show, wish.id)) do %>
+                        <img class="wish-image-index-avatar" src="<%= Wl.ImageUploader.url(wish.image, :avatar)%>">
+                      <% end %>
+                    <% else %>
+                      <%= link(to: Routes.wish_path(@conn, :show, wish.id)) do %>
+                        <img class="wish-image-index-avatar" src="<%= Routes.static_path(@conn, "/images/default_wish_avatar.jpg")%>">
+                      <% end %>
+                    <% end %>
+                  </div>
+                  <div class="col px-3">
+                    <div class="row d-flex justify-content-center border-bottom">
+                      <div class="col align-self-center">
+                        <%= link(to: Routes.wish_path(@conn, :show, wish.id)) do %>
+                          <p class="card-text h5 text-center"> <%= wish.name %> </p>
+                        <% end %>
+                      </div>
+                      <div class="col-4 mb-3">
+                        <%= if wish.user.profile_photo do %>
+                          <%= link(to: Routes.user_path(@conn, :show, wish.user_id), type: "button", data_toggle: "tooltip", data_placement: "top", title: wish.user.username) do %>
+                            <img class="user-profile-photo-index-tiny" src="<%= Wl.ImageUploader.url(wish.user.profile_photo, :tiny)%>">
+                          <% end %>
+                        <% else %>
+                          <%= link(to: Routes.user_path(@conn, :show, wish.user_id), type: "button", data_toggle: "tooltip", data_placement: "top", title: wish.user.username) do %>
+                            <img class="user-profile-photo-index-tiny" src="<%= Routes.static_path(@conn, "/images/default_user_avatar.jpg")%>">
+                          <% end %>
+                        <% end %>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col justify-content-center">
+                        <p class="card-text h5"> <%= wish.description %> </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+        <%= render WlWeb.SharedTemplatesView, "_pagination.html", %{conn: @conn, entities: @wishes, path: :wish_path} %>
+      <% end %>
+    </div>
+  </div>
+</div>
