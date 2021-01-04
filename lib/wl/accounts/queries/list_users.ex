@@ -21,7 +21,7 @@ defmodule Wl.Accounts.Queries.ListUsers do
     from(u in User, as: :user)
     |> where([{:user, u}], is_nil(u.archived_at))
     |> Filter.add_query(search_params)
-    |> order_by([{:user, u}], [{:desc, u.id == ^current_user_id}, {:asc, u.inserted_at}])
+    |> order_by([{:user, u}], [{:desc, u.id == ^current_user_id}, {:desc, u.inserted_at}])
     |> preload([{:user, u}], wishes: ^wish_subquery)
     |> Repo.paginate(search_params)
   end
@@ -29,7 +29,7 @@ defmodule Wl.Accounts.Queries.ListUsers do
   def process do
     from(u in User, as: :user)
     |> where([{:user, u}], is_nil(u.archived_at))
-    |> order_by([{:user, u}], {:asc, u.inserted_at})
+    |> order_by([{:user, u}], {:desc, u.inserted_at})
     |> Repo.all()
   end
 end
