@@ -1,5 +1,0 @@
-<h1 class="text-center">Edit Wish</h1>
-
-<div class="widget">
-  <%= render WlWeb.Properties.WishView , "_form.html",  Map.merge(assigns, %{changeset: @changeset, route_back: Routes.wish_path(@conn, :show, @wish.id), action_name: :update, action_to: Routes.wish_path(@conn, :update, @wish.id)}) %>
-</div>

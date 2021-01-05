@@ -1,5 +1,0 @@
-<h1 class="text-center">New User</h1>
-
-<div class="widget">
-  <%= render WlWeb.Accounts.UserView , "_form.html",  Map.merge(assigns, %{changeset: @changeset, route_back: Routes.session_path(@conn, :new), action_name: :create, action_to: Routes.user_path(@conn, :create)}) %>
-</div>
