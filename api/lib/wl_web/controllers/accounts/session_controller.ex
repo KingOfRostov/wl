@@ -8,17 +8,12 @@ defmodule WlWeb.Accounts.SessionController do
         {:ok, access_token} = Auth.create_session(user)
 
         conn
-        |> put_flash(:info, "Welcome back #{user.username}!")
-        |> put_session(:token, access_token)
-        |> put_session(:current_user_id, user.id)
-        |> put_session(:logged_in, true)
-        |> redirect(to: Routes.user_path(conn, :show, user))
+        |> render("create.json", %{token: access_token, current_user_id: user.id, logged_in: true})
 
-      {:error, message} ->
+      {:error, reason} ->
         conn
         |> put_status(401)
-        |> put_flash(:error, message)
-        |> render("new.html")
+        |> render("error.json", %{reason: reason})
     end
   end
 

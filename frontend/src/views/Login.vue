@@ -8,11 +8,11 @@
           </div>
         </div>
         <div class="row">
-          <div class="col s12">
+          <div class="col s12" v-on:keydown.enter="sendLoginData">
             <div class="row">
               <div class="input-field col s12">
                 <i class="material-icons prefix">account_box</i>
-                <input class="validate" id="username" type="text">
+                <input class="validate" id="username" type="text" v-model="username">
                 <label for="username" data-error="wrong" data-success="right">Username</label>
               </div>
             </div>
@@ -20,14 +20,14 @@
             <div class="row">
               <div class="input-field col s12">
                 <i class="material-icons prefix">lock_outline</i>
-                <input id="password" type="password">
+                <input id="password" type="password" v-model="password">
                 <label for="password">Password</label>
               </div>
             </div>
 
             <div class="row">
               <div class="input-field col s12">
-                <a href="#" class="btn waves-effect waves-light col s12">Login</a>
+                <button class="btn waves-effect waves-light col s12" v-on:click.prevent="sendLoginData">Login</button>
               </div>
               <div class="input-field col s12">
                 <a href="#" class="btn waves-effect waves-light col s12">Register</a>
@@ -39,6 +39,46 @@
     </div>
   </div>
 </template>
+
+<script>
+import axios from 'axios'
+export default {
+  data () {
+    return {
+      username: '',
+      password: ''
+    }
+  },
+  methods: {
+    async sendLoginData() {
+      await axios({
+        method: 'post',
+        url: 'session',
+        data: {
+          username: this.username,
+          password: this.password
+        }
+      }).then((response) => {
+        const status =
+          JSON.parse(response.status);
+
+        //redirect logic
+        if (status == '200') {
+          this.username = '';
+          this.password = '';
+          localStorage.setItem('token', response.data.token);
+          this.$router.push({name: 'home'});
+        }
+
+
+        console.log(response);
+      }).catch((error) => {
+        console.log(error);
+      })
+    }
+  }
+}
+</script>
 
 <style scoped>
 .page-content{
