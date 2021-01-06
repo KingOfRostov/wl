@@ -7,6 +7,7 @@ defmodule Wl.Accounts.Auth do
   def create_session(user), do: SessionStorage.create_session(user)
   def check_token(user_id, token), do: SessionStorage.check_token(user_id, token)
   def drop_session(user_id), do: SessionStorage.drop_session(user_id)
+  def get_user_id_by_token(token), do: SessionStorage.get_user_id_by_token(token)
 
   def authenticate(username, password) do
     username

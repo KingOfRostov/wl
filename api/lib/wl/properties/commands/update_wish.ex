@@ -1,6 +1,6 @@
 defmodule Wl.Properties.Commands.UpdateWish do
-  alias Wl.Properties.Entities.Wish
   alias Wl.ImageUploader
+  alias Wl.Properties.Entities.Wish
   alias Wl.Repo
 
   def process(wish, params) do

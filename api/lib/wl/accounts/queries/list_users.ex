@@ -1,7 +1,7 @@
 defmodule Wl.Accounts.Queries.ListUsers do
   alias Wl.Accounts.Entities.User
-  alias Wl.Properties.Entities.Wish
   alias Wl.Accounts.Queries.Filters.UserFilter.Filter
+  alias Wl.Properties.Entities.Wish
   alias Wl.Repo
   import Ecto.Query
 

@@ -1,6 +1,6 @@
 defmodule Wl.Properties.Queries.GetWish do
-  alias Wl.Repo
   alias Wl.Properties.Entities.Wish
+  alias Wl.Repo
   import Ecto.Query
   def process(nil), do: nil
 

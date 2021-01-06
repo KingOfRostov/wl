@@ -27,6 +27,10 @@ defmodule Wl.Accounts.Services.SessionStorage do
     GenServer.call(__MODULE__, {:check_token, user_id, token})
   end
 
+  def get_user_id_by_token(token) do
+    GenServer.call(__MODULE__, {:get_user_id_by_token, token})
+  end
+
   def drop_session(user_id) do
     GenServer.call(__MODULE__, {:drop_session, user_id})
   end
@@ -49,6 +53,12 @@ defmodule Wl.Accounts.Services.SessionStorage do
     {:reply, response, state}
   end
 
+  def handle_call({:get_user_id_by_token, user_id}, _from, state) do
+    response = _get_user_id_by_token(user_id)
+
+    {:reply, response, state}
+  end
+
   defp _check_token(user_id, token) do
     case :ets.lookup(@user_sessions, user_id) do
       [] ->
@@ -63,6 +73,19 @@ defmodule Wl.Accounts.Services.SessionStorage do
             :error
         end
     end
+  end
+
+  defp _get_user_id_by_token(token) do
+    :ets.foldl(
+      fn {user_id, encrypted_token, aes_256_key, init_vec}, acc ->
+        case _decrypt(encrypted_token, aes_256_key, init_vec) do
+          ^token -> user_id
+          _ -> acc
+        end
+      end,
+      nil,
+      @user_sessions
+    )
   end
 
   defp _generate_token do

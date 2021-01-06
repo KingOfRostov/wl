@@ -24,6 +24,7 @@ defmodule WlWeb.Router do
     get "/", PageController, :index
     resources "/session", Accounts.SessionController, only: [:create, :new]
     delete "/session", Accounts.SessionController, :delete, singleton: true
+    post "/session/check", Accounts.SessionController, :check, singleton: true
     resources "/users", Accounts.UserController, only: [:new, :create]
 
     pipe_through [:user_auth]
