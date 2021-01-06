@@ -13,10 +13,11 @@ defmodule Wl.Accounts.Queries.ListUsers do
       |> windows(wishes_partition: [partition_by: :user_id, order_by: :inserted_at])
 
     wish_subquery =
-      from w in Wish,
+      from(w in Wish,
         join: r in subquery(ranking_query),
         on: w.id == r.id and r.row_number <= 3,
         where: is_nil(w.archived_at)
+      )
 
     from(u in User, as: :user)
     |> where([{:user, u}], is_nil(u.archived_at))
