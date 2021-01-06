@@ -8,7 +8,11 @@ defmodule WlWeb.Accounts.SessionController do
         {:ok, access_token} = Auth.create_session(user)
 
         conn
-        |> render("create.json", %{token: access_token, current_user_id: user.id, logged_in: true})
+        |> render("create.json", %{
+          user: user,
+          token: access_token,
+          logged_in: true
+        })
 
       {:error, reason} ->
         conn
