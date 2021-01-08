@@ -10,6 +10,7 @@ defmodule WlWeb.Router do
   end
 
   pipeline :api do
+    plug(CORSPlug, origin: "*")
     plug :accepts, ["json"]
   end
 
@@ -18,11 +19,12 @@ defmodule WlWeb.Router do
   end
 
   scope "/", WlWeb do
-    pipe_through :browser
+    pipe_through :api
 
     get "/", PageController, :index
     resources "/session", Accounts.SessionController, only: [:create, :new]
     delete "/session", Accounts.SessionController, :delete, singleton: true
+    post "/session/check", Accounts.SessionController, :check, singleton: true
     resources "/users", Accounts.UserController, only: [:new, :create]
 
     pipe_through [:user_auth]

@@ -1,11 +1,4 @@
 <template>
-  <div class="right-side-buttons">
-    <button class="btn btn-primary mx-1">Add wish</button>
-    <button class="btn btn-warning mx-1">Edit</button>
-  </div>
-  <div class="main-information">
-    Image
-  </div>
   <div class="main-information">
     <div>
       <h2 class="username-text">{{ username }}</h2>
@@ -14,10 +7,13 @@
       <h3 class="fulle-name-text">{{ name + ' ' + surname }}</h3>
     </div>
     <div>
-      <h3 class="fulle-name-text">Followers: {{ followers }}</h3>
+      <h3 class="fulle-name-text">Followers: {{ followers_number }}</h3>
     </div>
     <div>
-      <h3 class="fulle-name-text">Followed: {{ followed }}</h3>
+      <h3 class="fulle-name-text">Followed: {{ followed_number }}</h3>
+    </div>
+    <div>
+      <h3 class="fulle-name-text">Wishes: {{ wishes_number }}</h3>
     </div>
   </div>
 </template>
@@ -26,12 +22,12 @@
 export default {
   data() {
     return {
-      username: '@king_of_rostov',
-      name: 'Сергей',
-      surname: 'Мкртчян',
-      followers: 0,
-      followed: 4,
-      wishes_number: 1
+      username: localStorage.getItem('username'),
+      name: localStorage.getItem('name'),
+      surname: localStorage.getItem('surname'),
+      followers_number: localStorage.getItem('followers_number'),
+      followed_number: localStorage.getItem('followed_number'),
+      wishes_number: localStorage.getItem('wishes_number'),
     };
   },
   name: 'Home'

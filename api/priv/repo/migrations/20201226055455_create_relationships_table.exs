@@ -11,9 +11,12 @@ defmodule Wl.Repo.Migrations.CreateRelationshipsTable do
 
     create index(:relationships, [:followed_user_id])
     create index(:relationships, [:follower_user_id])
-    create index(:relationships, [:followed_user_id, :follower_user_id], where: "archived_at is null", unique: true)
-  end
 
+    create index(:relationships, [:followed_user_id, :follower_user_id],
+             where: "archived_at is null",
+             unique: true
+           )
+  end
 
   def down do
     drop index(:relationships, [:followed_user_id])

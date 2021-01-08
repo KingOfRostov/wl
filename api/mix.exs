@@ -36,6 +36,7 @@ defmodule Wl.MixProject do
       {:arc, "~> 0.11.0"},
       {:arc_ecto, "~> 0.11.3"},
       {:argon2_elixir, "~> 2.0"},
+      {:cors_plug, "~> 2.0"},
       {:credo, "~> 1.3", only: [:dev, :test], runtime: false},
       {:ecto_sql, "~> 3.4"},
       {:ex_machina, "~> 2.2", only: [:test]},

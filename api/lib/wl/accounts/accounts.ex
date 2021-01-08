@@ -1,6 +1,4 @@
 defmodule Wl.Accounts do
-  alias Wl.Accounts.Entities.User
-
   alias Wl.Accounts.Commands.{
     ArchiveRelationship,
     ArchiveUser,
@@ -11,10 +9,12 @@ defmodule Wl.Accounts do
     UpdateUser
   }
 
+  alias Wl.Accounts.Entities.User
+
   alias Wl.Accounts.Queries.{
-    GetUser,
-    GetUserChangeset,
     GetUserByUsername,
+    GetUserChangeset,
+    GetUser,
     GetUsernameById,
     IsFollowing,
     ListUserFollowed,

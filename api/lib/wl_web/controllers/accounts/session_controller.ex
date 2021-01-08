@@ -1,5 +1,6 @@
 defmodule WlWeb.Accounts.SessionController do
   use WlWeb, :controller
+  alias Wl.Accounts
   alias Wl.Accounts.Auth
 
   def create(conn, %{"username" => username, "password" => password}) do
@@ -8,17 +9,35 @@ defmodule WlWeb.Accounts.SessionController do
         {:ok, access_token} = Auth.create_session(user)
 
         conn
-        |> put_flash(:info, "Welcome back #{user.username}!")
-        |> put_session(:token, access_token)
-        |> put_session(:current_user_id, user.id)
-        |> put_session(:logged_in, true)
-        |> redirect(to: Routes.user_path(conn, :show, user))
+        |> render("create.json", %{
+          user: user,
+          token: access_token,
+          logged_in: true
+        })
 
-      {:error, message} ->
+      {:error, reason} ->
         conn
         |> put_status(401)
-        |> put_flash(:error, message)
-        |> render("new.html")
+        |> render("error.json", %{reason: reason})
+    end
+  end
+
+  def check(conn, %{"token" => token}) do
+    case Auth.get_user_id_by_token(token) do
+      nil ->
+        conn
+        |> put_status(401)
+        |> render("error.json", %{reason: "Not authorized"})
+
+      user_id ->
+        user = Accounts.get_user(user_id)
+
+        conn
+        |> render("show.json", %{
+          user: user,
+          token: token,
+          logged_in: true
+        })
     end
   end
 

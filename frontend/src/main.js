@@ -3,5 +3,6 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import 'materialize-css/dist/js/materialize.min'
+import '@/services/axios.js'
 
 createApp(App).use(store).use(router).mount('#app')
