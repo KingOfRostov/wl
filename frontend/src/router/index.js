@@ -1,12 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/Home.vue'
+import ShowUser from '../views/ShowUser.vue'
 import axios from 'axios'
 
 const routes = [{
-        path: '/',
-        name: 'home',
+        path: '/:username',
+        name: 'showUser',
         meta: { layout: 'main' },
-        component: Home
+        component: ShowUser,
+        props: (route) => ({ username: route.params.username })
     },
     {
         path: '/login',
@@ -14,6 +15,13 @@ const routes = [{
         meta: { layout: 'empty' },
         component: () =>
             import ('@/views/Login.vue')
+    },
+    {
+        path: '/users',
+        name: 'users',
+        meta: { layout: 'main' },
+        component: () =>
+            import ('@/views/Users.vue')
     }
 ]
 

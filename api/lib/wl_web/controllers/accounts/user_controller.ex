@@ -19,14 +19,14 @@ defmodule WlWeb.Accounts.UserController do
     changeset = user_search(params)
     search_params = Params.to_map(changeset)
 
-    current_user_id = get_session(conn, :current_user_id)
+    current_user_id = params["current_user_id"]
     users = Accounts.list_users(current_user_id, search_params)
-    render(conn, "index.html", %{users: users})
+    render(conn, "index.json", %{users: users})
   end
 
-  def show(conn, %{"id" => id}) do
-    user = Accounts.get_user(id)
-    render(conn, "show.html", %{user: user})
+  def show(conn, %{"username" => username}) do
+    user = Accounts.get_user_by_username(username)
+    render(conn, "show.json", %{user: user})
   end
 
   def edit(conn, %{"id" => id}) do

@@ -3,11 +3,16 @@
     <nav class="navbar blue lighten-1">
       <div class="nav-wrapper">
         <div class="left">
-          <router-link :to="{name: 'home'}">
+          <router-link :to="{name: 'showUser', params: {username: getCurrentUserUsername}}">
             <img alt="Wish List logo" class="brand-logo wl-logo left" src="@/assets/logo.png">
           </router-link>
         </div>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <li>
+            <router-link :to="{name: 'users'}">
+              <span class="nav-text"> Users </span>
+            </router-link>
+          </li>
           <li v-if="loggedIn()">
             <router-link :to="{name: 'login'}">
               <span class="nav-text"> Log In </span>
@@ -38,6 +43,11 @@ export default {
     logOut () {
       localStorage.clear();
       this.$router.push({name: 'login'});
+    }
+  },
+  computed: {
+    getCurrentUserUsername() {
+      return(localStorage.getItem('username'))
     }
   }
 }

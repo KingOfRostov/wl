@@ -3,6 +3,7 @@ defmodule Wl.ImageUploader do
   use Arc.Ecto.Definition
   import Ecto.Changeset, only: [get_change: 2]
   alias Ecto.UUID
+  alias WlWeb.Endpoint
 
   @extension_whitelist ~w(.jpg .jpeg .png)
 
@@ -79,5 +80,25 @@ defmodule Wl.ImageUploader do
     else
       changeset
     end
+  end
+
+  def full_url(image, size) do
+    full_url(image, size, Mix.env())
+  end
+
+  def full_url(nil, _size, _) do
+    nil
+  end
+
+  def full_url(image, size, :dev) do
+    Endpoint.url() <> url(image, size)
+  end
+
+  def full_url(image, size, :test) do
+    full_url(image, size, :dev)
+  end
+
+  def full_url(image, size, :prod) do
+    url(image, size)
   end
 end

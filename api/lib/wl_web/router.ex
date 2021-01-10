@@ -12,24 +12,26 @@ defmodule WlWeb.Router do
   pipeline :api do
     plug(CORSPlug, origin: "*")
     plug :accepts, ["json"]
+    plug ProperCase.Plug.SnakeCaseParams
   end
 
   pipeline :user_auth do
     plug Wl.Accounts.Services.UserAuthPlug
+    plug ProperCase.Plug.SnakeCaseParams
   end
 
   scope "/", WlWeb do
     pipe_through :api
-
     get "/", PageController, :index
     resources "/session", Accounts.SessionController, only: [:create, :new]
     delete "/session", Accounts.SessionController, :delete, singleton: true
     post "/session/check", Accounts.SessionController, :check, singleton: true
     resources "/users", Accounts.UserController, only: [:new, :create]
 
-    pipe_through [:user_auth]
+    # pipe_through [:user_auth]
 
-    resources "/users", Accounts.UserController, except: [:delete, :new, :create]
+    resources "/users", Accounts.UserController, except: [:delete, :show, :new, :create]
+    get "/users/:username", Accounts.UserController, :show
     post "/users/:id/follow", Accounts.UserController, :follow
     post "/users/:id/unfollow", Accounts.UserController, :unfollow
     resources "/wishes", Properties.WishController, except: [:delete]
