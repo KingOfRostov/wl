@@ -66,14 +66,11 @@ export default {
         if (status == '200') {
           this.username = '';
           this.password = '';
+          const username = response.data.user.username
           localStorage.setItem('token', response.data.token);
-          localStorage.setItem('username', response.data.user.username);
-          localStorage.setItem('name', response.data.user.name);
-          localStorage.setItem('surname', response.data.user.surname);
-          localStorage.setItem('followers_number', response.data.user.followers_number);
-          localStorage.setItem('followed_number', response.data.user.followed_number);
-          localStorage.setItem('wishes_number', response.data.user.wishes_number);
-          this.$router.push({name: 'home'});
+          localStorage.setItem('username', username);
+          localStorage.setItem('currentUserId', response.data.user.id);
+          this.$router.push({name: 'showUser', params: {username: username}});
         }
 
 
